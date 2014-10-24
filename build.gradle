@@ -1,7 +1,20 @@
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
 version = '1.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'FoodManager',
+                'Implementation-Version': version,
+                'Main-Class': 'net.foodmanager.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
 
 repositories {
     mavenCentral()
