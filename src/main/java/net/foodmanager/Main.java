@@ -53,7 +53,7 @@ public class Main {
                     .setParameter("calories", calories)
                     .executeUpdate();
         });
-        System.out.printf("Inserted Food Day Item");
+        System.out.println("Inserted Food Day Item");
     }
 
     private void insertFoodDay(String[] args, Injector injector) {
@@ -68,7 +68,7 @@ public class Main {
                     .setParameter("localDate", localDate)
                     .executeUpdate();
         });
-        System.out.printf("Inserted Food Day: " + localDate);
+        System.out.println("Inserted Food Day: " + localDate);
     }
 
     private void printDailyCalorieTotal(String[] args, Injector injector) {

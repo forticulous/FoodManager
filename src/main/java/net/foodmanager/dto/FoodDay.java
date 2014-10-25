@@ -8,9 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Converts;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,6 +29,7 @@ public class FoodDay {
 
     private UUID id;
     private LocalDate localDate;
+    private List<FoodDayItem> foodDayItems;
 
     @Id
     @Column(name = "food_day_id")
@@ -44,6 +48,15 @@ public class FoodDay {
 
     public void setLocalDate(LocalDate localDate) {
         this.localDate = localDate;
+    }
+
+    @OneToMany(mappedBy = "foodDay", fetch = FetchType.EAGER)
+    public List<FoodDayItem> getFoodDayItems() {
+        return foodDayItems;
+    }
+
+    public void setFoodDayItems(List<FoodDayItem> foodDayItems) {
+        this.foodDayItems = foodDayItems;
     }
 
     @Override
@@ -69,5 +82,4 @@ public class FoodDay {
                 .add("localDate", localDate)
                 .toString();
     }
-
 }

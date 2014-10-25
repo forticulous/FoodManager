@@ -3,9 +3,12 @@ package net.foodmanager.dto;
 import com.google.common.base.MoreObjects;
 import org.hibernate.annotations.Type;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,6 +24,7 @@ public class FoodDayItem {
     private String foodDescription;
     private String meal;
     private int calories;
+    private FoodDay foodDay;
 
     @Id
     @Column(name = "food_day_item_id")
@@ -58,6 +62,16 @@ public class FoodDayItem {
         this.calories = calories;
     }
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_day_id")
+    public FoodDay getFoodDay() {
+        return foodDay;
+    }
+
+    public void setFoodDay(FoodDay foodDay) {
+        this.foodDay = foodDay;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,5 +99,4 @@ public class FoodDayItem {
                 .add("calories", calories)
                 .toString();
     }
-
 }
