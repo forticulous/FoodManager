@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+    <entry key="dailyCalorieTotal">
+    <![CDATA[
+        SELECT sum(fdi.calories)
+        FROM food_day fd
+        INNER JOIN food_day_item fdi
+        ON fd.food_day_id = fdi.food_day_id
+        WHERE fd.local_date = :localDate
+    ]]>
+    </entry>
+
+</properties>

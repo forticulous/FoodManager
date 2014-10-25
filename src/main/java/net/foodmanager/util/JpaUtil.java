@@ -1,5 +1,6 @@
 package net.foodmanager.util;
 
+import com.google.inject.Inject;
 import net.foodmanager.util.callback.DoInTransactionCallback;
 import net.foodmanager.util.callback.ReturnFromTransactionCallback;
 
@@ -11,13 +12,10 @@ import javax.persistence.EntityManagerFactory;
  */
 public final class JpaUtil {
 
+    @Inject
     private static EntityManagerFactory emf;
 
     private JpaUtil() {}
-
-    public static void setEntityManagerFactory(EntityManagerFactory emf) {
-        JpaUtil.emf = emf;
-    }
 
     public static void doInTransaction(DoInTransactionCallback callback) {
         EntityManager em = emf.createEntityManager();
