@@ -19,5 +19,13 @@
     ]]>
     </entry>
 
+    <entry key="insertFoodDayItem">
+    <![CDATA[
+        INSERT INTO food_day_item (food_day_id, food_desc, meal, calories)
+        SELECT food_day_id, :foodDesc, :meal, :calories
+        FROM food_day
+        WHERE local_date = :localDate
+    ]]>
+    </entry>
 
 </properties>

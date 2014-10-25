@@ -28,9 +28,32 @@ public class Main {
 
         Injector injector = Guice.createInjector(new JpaModule(), new SqlModule());
         //insertFoodDay(args, injector);
+        //insertFoodDayItem(args, injector);
         printDailyCalorieTotal(args, injector);
 
         System.exit(0);
+    }
+
+    private void insertFoodDayItem(String[] args, Injector injector) {
+        if (args.length < 4) {
+            throw new IllegalArgumentException("Missing required number of arguments");
+        }
+        String localDate = args[0];
+        String foodDesc = args[1];
+        String meal = args[2];
+        long calories = Long.valueOf(args[3]);
+
+        String insertFoodDayItemSql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.INSERT_FOOD_DAY_ITEM)));
+
+        JpaUtil.doInTransaction(em -> {
+            em.createNativeQuery(insertFoodDayItemSql)
+                    .setParameter("localDate", localDate)
+                    .setParameter("foodDesc", foodDesc)
+                    .setParameter("meal", meal)
+                    .setParameter("calories", calories)
+                    .executeUpdate();
+        });
+        System.out.printf("Inserted Food Day Item");
     }
 
     private void insertFoodDay(String[] args, Injector injector) {

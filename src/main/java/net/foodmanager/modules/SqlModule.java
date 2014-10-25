@@ -18,6 +18,7 @@ public class SqlModule extends AbstractModule {
     private static final String SQL_PROPERTIES_FILE = "sql-source.xml";
     public static final String DAILY_CALORIE_TOTAL = "dailyCalorieTotal";
     public static final String INSERT_FOOD_DAY = "insertFoodDay";
+    public static final String INSERT_FOOD_DAY_ITEM = "insertFoodDayItem";
 
     @Override
     protected void configure() {
@@ -25,6 +26,7 @@ public class SqlModule extends AbstractModule {
 
         bindConstant().annotatedWith(Names.named(DAILY_CALORIE_TOTAL)).to(sqlProps.getProperty(DAILY_CALORIE_TOTAL));
         bindConstant().annotatedWith(Names.named(INSERT_FOOD_DAY)).to(sqlProps.getProperty(INSERT_FOOD_DAY));
+        bindConstant().annotatedWith(Names.named(INSERT_FOOD_DAY_ITEM)).to(sqlProps.getProperty(INSERT_FOOD_DAY_ITEM));
     }
 
     private Properties getProperties() {
