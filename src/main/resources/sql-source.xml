@@ -4,11 +4,10 @@
 
     <entry key="dailyCalorieTotal">
     <![CDATA[
-        SELECT sum(fdi.calories)
-        FROM food_day fd
-        INNER JOIN food_day_item fdi
-        ON fd.food_day_id = fdi.food_day_id
-        WHERE fd.local_date = :localDate
+        select sum(item.calories)
+        from %s fd
+        join fd.foodDayItems as item
+        where fd.localDate = :localDate
     ]]>
     </entry>
 

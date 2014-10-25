@@ -11,15 +11,13 @@ import java.time.format.DateTimeFormatter;
 @Converter
 public class LocalDateStringConverter implements AttributeConverter<LocalDate, String> {
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/uuuu");
-
     @Override
     public String convertToDatabaseColumn(LocalDate attribute) {
-        return attribute.format(formatter);
+        return attribute.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     @Override
     public LocalDate convertToEntityAttribute(String dbData) {
-        return LocalDate.parse(dbData, formatter);
+        return LocalDate.parse(dbData, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }

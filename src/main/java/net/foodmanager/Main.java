@@ -4,12 +4,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
+import net.foodmanager.dto.FoodDay;
+import net.foodmanager.jpa.LocalDateStringConverter;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.SqlModule;
 import net.foodmanager.util.JpaUtil;
 
-import javax.persistence.Query;
-import java.math.BigInteger;
+import javax.persistence.TypedQuery;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -77,15 +78,15 @@ public class Main {
                 .orElseThrow(() -> new IllegalArgumentException("Missing required argument localDate"));
         String totalDayCaloriesSql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.DAILY_CALORIE_TOTAL)));
 
-        Optional<BigInteger> option = JpaUtil.<Optional<BigInteger>> returnFromTransaction(em -> {
-            Query query = em.createNativeQuery(totalDayCaloriesSql);
-            query.setParameter("localDate", localDate);
-            BigInteger singleResult = (BigInteger) query.getSingleResult();
+        Optional<Long> option = JpaUtil.<Optional<Long>> returnFromTransaction(em -> {
+            String sql = String.format(totalDayCaloriesSql, FoodDay.class.getSimpleName());
+            TypedQuery<Long> query = em.createQuery(sql, Long.class)
+                    .setParameter("localDate", new LocalDateStringConverter().convertToEntityAttribute(localDate));
+
+            Long singleResult = query.getSingleResult();
             return Optional.ofNullable(singleResult);
         });
-        int totalCals = option
-                .map(BigInteger::intValue)
-                .orElse(0);
+        long totalCals = option.orElse(0L);
 
         System.out.println(String.format("Total calories for %s: %s", localDate, totalCals));
     }
