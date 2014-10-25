@@ -19,13 +19,39 @@ import java.util.Optional;
 public class Main {
 
     public static void main(String[] args) {
+        Main main = new Main();
+        main.run(args);
+    }
+
+    public void run(String[] args) {
         System.out.println("FoodManager started");
 
+        Injector injector = Guice.createInjector(new JpaModule(), new SqlModule());
+        //insertFoodDay(args, injector);
+        printDailyCalorieTotal(args, injector);
+
+        System.exit(0);
+    }
+
+    private void insertFoodDay(String[] args, Injector injector) {
         String localDate = Arrays.stream(args)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Missing required argument localDate"));
 
-        Injector injector = Guice.createInjector(new JpaModule(), new SqlModule());
+        String insertFoodDaySql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.INSERT_FOOD_DAY)));
+
+        JpaUtil.doInTransaction(em -> {
+            em.createNativeQuery(insertFoodDaySql)
+                    .setParameter("localDate", localDate)
+                    .executeUpdate();
+        });
+        System.out.printf("Inserted Food Day: " + localDate);
+    }
+
+    private void printDailyCalorieTotal(String[] args, Injector injector) {
+        String localDate = Arrays.stream(args)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Missing required argument localDate"));
         String totalDayCaloriesSql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.DAILY_CALORIE_TOTAL)));
 
         Optional<BigInteger> option = JpaUtil.<Optional<BigInteger>> returnFromTransaction(em -> {
@@ -36,11 +62,9 @@ public class Main {
         });
         int totalCals = option
                 .map(BigInteger::intValue)
-                .orElseThrow(() -> new IllegalArgumentException("No records found"));
+                .orElse(0);
 
         System.out.println(String.format("Total calories for %s: %s", localDate, totalCals));
-
-        System.exit(0);
     }
 
 }

@@ -12,4 +12,12 @@
     ]]>
     </entry>
 
+    <entry key="insertFoodDay">
+    <![CDATA[
+        INSERT INTO food_day (local_date)
+        VALUES (:localDate)
+    ]]>
+    </entry>
+
+
 </properties>
