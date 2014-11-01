@@ -4,6 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
+import net.foodmanager.json.GsonReader;
+import net.foodmanager.json.GsonWriter;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
@@ -33,7 +35,21 @@ public class Main {
 
         Injector injector = Guice.createInjector(new JpaModule(), new SqlModule(), new ResourceModule());
 
+        Server server = new Server(PORT);
+        server.setHandler(buildServletContextHandler(injector));
+        server.start();
+        server.join();
+
+        //insertFoodDay(args, injector);
+        //insertFoodDayItem(args, injector);
+
+        System.exit(0);
+    }
+
+    private ServletContextHandler buildServletContextHandler(Injector injector) {
         ResourceConfig resourceConfig = injector.getInstance(ResourceConfig.class);
+        resourceConfig.register(GsonReader.class);
+        resourceConfig.register(GsonWriter.class);
 
         ServletContainer servlet = new ServletContainer(resourceConfig);
 
@@ -42,15 +58,7 @@ public class Main {
         ServletContextHandler handler = new ServletContextHandler();
         handler.addServlet(holder, "/*");
 
-        Server server = new Server(PORT);
-        server.setHandler(handler);
-        server.start();
-        server.join();
-
-        //insertFoodDay(args, injector);
-        //insertFoodDayItem(args, injector);
-
-        System.exit(0);
+        return handler;
     }
 
     private void insertFoodDayItem(String[] args, Injector injector) {

@@ -1,12 +1,8 @@
 package net.foodmanager.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.Expose;
 import net.foodmanager.jpa.LocalDateStringConverter;
-import net.foodmanager.json.LocalDateDeserializer;
-import net.foodmanager.json.LocalDateSerializer;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
@@ -32,11 +28,10 @@ import java.util.UUID;
 })
 public class FoodDay {
 
+    @Expose
     private UUID id;
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @Expose
     private LocalDate localDate;
-    @JsonIgnore
     private List<FoodDayItem> foodDayItems;
 
     @Id

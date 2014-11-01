@@ -1,7 +1,6 @@
 package net.foodmanager.resources;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import net.foodmanager.dto.FoodDay;
@@ -46,7 +45,7 @@ public class FoodDayResource {
         Optional<FoodDay> foodDay = getFoodDayByLocalDate(localDate);
 
         return foodDay.map(Response::ok)
-                .orElse(Response.ok(new ObjectNode(JsonNodeFactory.instance)))
+                .orElse(Response.ok(new JsonObject()))
                 .build();
     }
 
@@ -68,10 +67,10 @@ public class FoodDayResource {
                 .sum()
         ).orElse(0);
 
-        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
-        node.put("calories", calories);
+        JsonObject obj = new JsonObject();
+        obj.addProperty("calories", calories);
 
-        return Response.ok(node).build();
+        return Response.ok(obj).build();
     }
 
     private Optional<FoodDay> getFoodDayByLocalDate(LocalDate localDate) {
