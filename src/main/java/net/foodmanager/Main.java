@@ -8,8 +8,14 @@ import net.foodmanager.dto.FoodDay;
 import net.foodmanager.dto.FoodDayItem;
 import net.foodmanager.jpa.LocalDateStringConverter;
 import net.foodmanager.modules.JpaModule;
+import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
 import net.foodmanager.util.JpaUtil;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -21,18 +27,35 @@ import java.util.Optional;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    private static final int PORT = 8080;
+
+    public static void main(String[] args) throws Exception {
         Main main = new Main();
         main.run(args);
     }
 
-    public void run(String[] args) {
+    public void run(String[] args) throws Exception {
         System.out.println("FoodManager started");
 
-        Injector injector = Guice.createInjector(new JpaModule(), new SqlModule());
+        Injector injector = Guice.createInjector(new JpaModule(), new SqlModule(), new ResourceModule());
+
+        ResourceConfig resourceConfig = injector.getInstance(ResourceConfig.class);
+
+        ServletContainer servlet = new ServletContainer(resourceConfig);
+
+        ServletHolder holder = new ServletHolder(servlet);
+
+        ServletContextHandler handler = new ServletContextHandler();
+        handler.addServlet(holder, "/*");
+
+        Server server = new Server(PORT);
+        server.setHandler(handler);
+        server.start();
+        server.join();
+
         //insertFoodDay(args, injector);
         //insertFoodDayItem(args, injector);
-        printDailyCalorieTotal(args, injector);
+        //printDailyCalorieTotal(args, injector);
 
         System.exit(0);
     }
