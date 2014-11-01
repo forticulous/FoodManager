@@ -4,9 +4,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
-import net.foodmanager.dto.FoodDay;
-import net.foodmanager.dto.FoodDayItem;
-import net.foodmanager.jpa.LocalDateStringConverter;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
@@ -17,10 +14,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * @author fort
@@ -55,7 +49,6 @@ public class Main {
 
         //insertFoodDay(args, injector);
         //insertFoodDayItem(args, injector);
-        //printDailyCalorieTotal(args, injector);
 
         System.exit(0);
     }
@@ -95,34 +88,6 @@ public class Main {
                     .executeUpdate();
         });
         System.out.println("Inserted Food Day: " + localDate);
-    }
-
-    private void printDailyCalorieTotal(String[] args, Injector injector) {
-        String localDate = Arrays.stream(args)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Missing required argument localDate"));
-        String foodDayByLocalDateSql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.GET_FOOD_DAY_BY_LOCAL_DATE)));
-
-        Optional<FoodDay> option = JpaUtil.<Optional<FoodDay>> returnFromTransaction(em -> {
-            String sql = String.format(foodDayByLocalDateSql, FoodDay.class.getSimpleName());
-            TypedQuery<FoodDay> query = em.createQuery(sql, FoodDay.class)
-                    .setParameter("localDate", new LocalDateStringConverter().convertToEntityAttribute(localDate));
-
-            FoodDay singleResult;
-            try {
-                singleResult = query.getSingleResult();
-            } catch (NoResultException ex) {
-                return Optional.empty();
-            }
-            return Optional.of(singleResult);
-        });
-        int totalCals = option.<Integer> map(fd ->
-            fd.getFoodDayItems().stream()
-                    .mapToInt(FoodDayItem::getCalories)
-                    .sum()
-        ).orElse(0);
-
-        System.out.println(String.format("Total calories for %s: %s", localDate, totalCals));
     }
 
 }
