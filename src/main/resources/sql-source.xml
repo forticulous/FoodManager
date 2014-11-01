@@ -2,12 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 
-    <entry key="dailyCalorieTotal">
+    <entry key="getFoodDayByLocalDate">
     <![CDATA[
-        select sum(item.calories)
-        from %s fd
-        join fd.foodDayItems as item
-        where fd.localDate = :localDate
+        from %s
+        where localDate = :localDate
     ]]>
     </entry>
 
