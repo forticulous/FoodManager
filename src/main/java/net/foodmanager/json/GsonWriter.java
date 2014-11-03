@@ -43,7 +43,7 @@ public class GsonWriter<T> implements MessageBodyWriter<T> {
     public void writeTo(T t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
                         throws IOException, WebApplicationException {
-        httpHeaders.get(HttpHeaders.CONTENT_TYPE).add("charset=" + Charsets.UTF_8.displayName());
+        httpHeaders.get(HttpHeaders.CONTENT_TYPE).add("charset=" + Charsets.UTF_8);
         entityStream.write(gson.toJson(t).getBytes(Charsets.UTF_8));
     }
 
