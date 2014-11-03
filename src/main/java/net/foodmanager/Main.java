@@ -4,8 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
-import net.foodmanager.json.GsonReader;
-import net.foodmanager.json.GsonWriter;
+import net.foodmanager.json.GsonReaderWriter;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
@@ -48,8 +47,7 @@ public class Main {
 
     private ServletContextHandler buildServletContextHandler(Injector injector) {
         ResourceConfig resourceConfig = injector.getInstance(ResourceConfig.class);
-        resourceConfig.register(GsonReader.class);
-        resourceConfig.register(GsonWriter.class);
+        resourceConfig.register(GsonReaderWriter.class);
 
         ServletContainer servlet = new ServletContainer(resourceConfig);
 
