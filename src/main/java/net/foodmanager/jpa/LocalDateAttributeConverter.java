@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  * @author fort
  */
 @Converter
-public class LocalDateStringConverter implements AttributeConverter<LocalDate, String> {
+public class LocalDateAttributeConverter implements AttributeConverter<LocalDate, String> {
 
     @Override
     public String convertToDatabaseColumn(LocalDate attribute) {
@@ -20,4 +20,5 @@ public class LocalDateStringConverter implements AttributeConverter<LocalDate, S
     public LocalDate convertToEntityAttribute(String dbData) {
         return LocalDate.parse(dbData, DateTimeFormatter.ISO_LOCAL_DATE);
     }
+
 }

@@ -2,7 +2,7 @@ package net.foodmanager.dto;
 
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.Expose;
-import net.foodmanager.jpa.LocalDateStringConverter;
+import net.foodmanager.jpa.LocalDateAttributeConverter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "food_day")
 @Converts( {
-        @Convert(attributeName = "localDate", converter = LocalDateStringConverter.class)
+        @Convert(attributeName = "localDate", converter = LocalDateAttributeConverter.class)
 })
 public class FoodDay {
 

@@ -1,4 +1,4 @@
-package net.foodmanager.json;
+package net.foodmanager.gson;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

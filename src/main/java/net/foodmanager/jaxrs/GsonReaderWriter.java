@@ -1,9 +1,10 @@
-package net.foodmanager.json;
+package net.foodmanager.jaxrs;
 
 import com.google.common.base.Charsets;
 import com.google.common.net.HttpHeaders;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.foodmanager.gson.LocalDateTypeAdapter;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -41,11 +42,8 @@ public class GsonReaderWriter<T> implements MessageBodyReader<T>, MessageBodyWri
     public T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                       MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
                       throws IOException, WebApplicationException {
-        T t;
-        try (InputStreamReader reader = new InputStreamReader(entityStream, Charsets.UTF_8)) {
-            t = gson.fromJson(reader, genericType);
-        }
-        return t;
+        InputStreamReader reader = new InputStreamReader(entityStream, Charsets.UTF_8);
+        return gson.fromJson(reader, genericType);
     }
 
     @Override
