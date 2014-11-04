@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import net.foodmanager.jaxrs.GsonReaderWriter;
+import net.foodmanager.jaxrs.LocalDateParamConverterProvider;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
@@ -48,6 +49,7 @@ public class Main {
     private ServletContextHandler buildServletContextHandler(Injector injector) {
         ResourceConfig resourceConfig = injector.getInstance(ResourceConfig.class);
         resourceConfig.register(GsonReaderWriter.class);
+        resourceConfig.register(LocalDateParamConverterProvider.class);
 
         ServletContainer servlet = new ServletContainer(resourceConfig);
 
@@ -66,18 +68,18 @@ public class Main {
         String localDate = args[0];
         String foodDesc = args[1];
         String meal = args[2];
-        long calories = Long.valueOf(args[3]);
+        long calories = Long.parseLong(args[3]);
 
         String insertFoodDayItemSql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.INSERT_FOOD_DAY_ITEM)));
 
-        JpaUtil.doInTransaction(em -> {
+        JpaUtil.doInTransaction(em ->
             em.createNativeQuery(insertFoodDayItemSql)
                     .setParameter("localDate", localDate)
                     .setParameter("foodDesc", foodDesc)
                     .setParameter("meal", meal)
                     .setParameter("calories", calories)
-                    .executeUpdate();
-        });
+                    .executeUpdate()
+        );
         System.out.println("Inserted Food Day Item");
     }
 

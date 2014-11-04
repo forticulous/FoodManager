@@ -17,8 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 /**
@@ -34,14 +32,7 @@ public class FoodDayResource {
 
     @GET
     @Path("/{localDate}")
-    public Response foodDayByLocalDate(@PathParam("localDate") String localDateString) {
-        LocalDate localDate;
-        try {
-            localDate = LocalDate.parse(localDateString, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (DateTimeParseException e) {
-            return Response.ok(e.getMessage()).build();
-        }
-
+    public Response foodDayByLocalDate(@PathParam("localDate") LocalDate localDate) {
         Optional<FoodDay> foodDay = getFoodDayByLocalDate(localDate);
 
         return foodDay.map(Response::ok)
@@ -51,14 +42,7 @@ public class FoodDayResource {
 
     @GET
     @Path("/{localDate}/calories")
-    public Response getCaloriesForDay(@PathParam("localDate") String localDateString) {
-        LocalDate localDate;
-        try {
-            localDate = LocalDate.parse(localDateString, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (DateTimeParseException e) {
-            return Response.ok(e.getMessage()).build();
-        }
-
+    public Response getCaloriesForDay(@PathParam("localDate") LocalDate localDate) {
         Optional<FoodDay> option = getFoodDayByLocalDate(localDate);
 
         int calories = option.<Integer> map(fd ->
