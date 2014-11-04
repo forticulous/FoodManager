@@ -1,5 +1,6 @@
 package net.foodmanager;
 
+import com.google.common.io.Resources;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -10,12 +11,17 @@ import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
 import net.foodmanager.util.JpaUtil;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import java.net.URL;
 import java.util.Arrays;
 
 /**
@@ -36,7 +42,7 @@ public class Main {
         Injector injector = Guice.createInjector(new JpaModule(), new SqlModule(), new ResourceModule());
 
         Server server = new Server(PORT);
-        server.setHandler(buildServletContextHandler(injector));
+        server.setHandler(buildHandlers(injector));
         server.start();
         server.join();
 
@@ -46,18 +52,42 @@ public class Main {
         System.exit(0);
     }
 
-    private ServletContextHandler buildServletContextHandler(Injector injector) {
+    private Handler buildHandlers(Injector injector) {
+        HandlerList handlers = new HandlerList();
+        handlers.addHandler(getStaticContentHandler());
+        handlers.addHandler(getServiceHandler(injector));
+        return handlers;
+    }
+
+    /**
+     * Create the resource handler that serves the static single-page app as /ui
+     */
+    private Handler getStaticContentHandler() {
+        URL url = Resources.getResource("WEB-INF/public/");
+
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setResourceBase(url.getPath());
+
+        ContextHandler contextHandler = new ContextHandler();
+        contextHandler.setContextPath("/ui");
+        contextHandler.setHandler(resourceHandler);
+        return contextHandler;
+    }
+
+    /**
+     * Create the servlet handler that maps the rest services to /api
+     */
+    private ServletContextHandler getServiceHandler(Injector injector) {
         ResourceConfig resourceConfig = injector.getInstance(ResourceConfig.class);
         resourceConfig.register(GsonReaderWriter.class);
         resourceConfig.register(LocalDateParamConverterProvider.class);
 
-        ServletContainer servlet = new ServletContainer(resourceConfig);
+        ServletContainer apiServlet = new ServletContainer(resourceConfig);
 
-        ServletHolder holder = new ServletHolder(servlet);
+        ServletHolder apiHolder = new ServletHolder(apiServlet);
 
         ServletContextHandler handler = new ServletContextHandler();
-        handler.addServlet(holder, "/*");
-
+        handler.addServlet(apiHolder, "/api/*");
         return handler;
     }
 
