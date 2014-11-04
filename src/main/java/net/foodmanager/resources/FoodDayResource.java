@@ -8,15 +8,21 @@ import net.foodmanager.dto.FoodDayItem;
 import net.foodmanager.modules.SqlModule;
 import net.foodmanager.util.JpaUtil;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 /**
@@ -33,17 +39,43 @@ public class FoodDayResource {
     @GET
     @Path("/{localDate}")
     public Response foodDayByLocalDate(@PathParam("localDate") LocalDate localDate) {
-        Optional<FoodDay> foodDay = getFoodDayByLocalDate(localDate);
+        Optional<FoodDay> foodDay = JpaUtil.returnFromTransaction(em -> getFoodDayByLocalDate(em, localDate));
 
         return foodDay.map(Response::ok)
                 .orElse(Response.ok(new JsonObject()))
                 .build();
     }
 
+    @POST
+    @Path("/{localDate}")
+    public Response insertFoodDay(@PathParam("localDate") LocalDate localDate) throws URISyntaxException {
+        final FoodDay newFoodDay = new FoodDay();
+        newFoodDay.setLocalDate(localDate);
+
+        JpaUtil.doInTransaction(em ->
+                em.persist(newFoodDay)
+        );
+
+        URI newUrl = new URI("/" + localDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        return Response.created(newUrl).build();
+    }
+
+    @DELETE
+    @Path("/{localDate}")
+    public Response deleteFoodDay(@PathParam("localDate") LocalDate localDate) {
+        JpaUtil.doInTransaction(em -> {
+            Optional<FoodDay> option = getFoodDayByLocalDate(em, localDate);
+
+            option.ifPresent(em::remove);
+        });
+
+        return Response.ok().build();
+    }
+
     @GET
     @Path("/{localDate}/calories")
     public Response getCaloriesForDay(@PathParam("localDate") LocalDate localDate) {
-        Optional<FoodDay> option = getFoodDayByLocalDate(localDate);
+        Optional<FoodDay> option = JpaUtil.returnFromTransaction(em -> getFoodDayByLocalDate(em, localDate));
 
         int calories = option.<Integer> map(fd ->
             fd.getFoodDayItems().stream()
@@ -57,20 +89,18 @@ public class FoodDayResource {
         return Response.ok(obj).build();
     }
 
-    private Optional<FoodDay> getFoodDayByLocalDate(LocalDate localDate) {
-        return JpaUtil.<Optional<FoodDay>> returnFromTransaction(em -> {
-            String sql = String.format(foodDayByLocalDateSql, FoodDay.class.getSimpleName());
-            TypedQuery<FoodDay> query = em.createQuery(sql, FoodDay.class)
-                    .setParameter("localDate", localDate);
+    private Optional<FoodDay> getFoodDayByLocalDate(EntityManager em, LocalDate localDate) {
+        String sql = String.format(foodDayByLocalDateSql, FoodDay.class.getSimpleName());
+        TypedQuery<FoodDay> query = em.createQuery(sql, FoodDay.class)
+                .setParameter("localDate", localDate);
 
-            FoodDay singleResult;
-            try {
-                singleResult = query.getSingleResult();
-            } catch (NoResultException ex) {
-                return Optional.empty();
-            }
-            return Optional.of(singleResult);
-        });
+        FoodDay singleResult;
+        try {
+            singleResult = query.getSingleResult();
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
+        return Optional.of(singleResult);
     }
 
 }
