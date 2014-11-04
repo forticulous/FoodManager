@@ -1,0 +1,7 @@
+Let's not put the js libs in version control.
+
+But let's document them here:
+ember.js   | 1.3
+ember-data | 1.3
+handlebars | 1.3.0
+jquery     | 1.10.2 (min)
