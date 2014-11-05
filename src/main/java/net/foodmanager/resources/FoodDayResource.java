@@ -12,11 +12,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -33,8 +35,6 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodDayResource {
 
-    public static final int MAX_RESULT = 10;
-
     @Inject
     @Named(SqlModule.FIND_ALL_FOOD_DAYS)
     private String findAllFoodDays;
@@ -44,11 +44,15 @@ public class FoodDayResource {
     private String foodDayByLocalDateSql;
 
     @GET
-    public Response findAllFoodDays() {
+    public Response findAllFoodDays(@QueryParam("offset") @DefaultValue("1") int offset,
+                                    @QueryParam("limit") @DefaultValue("10") int limit) {
+        Pagination pagination = Pagination.valueOf(offset, limit);
+
         List<FoodDay> foodDays = JpaUtil.returnFromTransaction(em -> {
             String sql = String.format(findAllFoodDays, FoodDay.class.getSimpleName());
             TypedQuery<FoodDay> query = em.createQuery(sql, FoodDay.class)
-                    .setMaxResults(MAX_RESULT);
+                    .setFirstResult(pagination.getFirstResult())
+                    .setMaxResults(pagination.getMaxResult());
 
             return query.getResultList();
         });
