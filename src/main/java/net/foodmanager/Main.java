@@ -22,7 +22,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import java.net.URL;
-import java.util.Arrays;
 
 /**
  * @author fort
@@ -46,7 +45,6 @@ public class Main {
         server.start();
         server.join();
 
-        //insertFoodDay(args, injector);
         //insertFoodDayItem(args, injector);
 
         System.exit(0);
@@ -111,21 +109,6 @@ public class Main {
                     .executeUpdate()
         );
         System.out.println("Inserted Food Day Item");
-    }
-
-    private void insertFoodDay(String[] args, Injector injector) {
-        String localDate = Arrays.stream(args)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Missing required argument localDate"));
-
-        String insertFoodDaySql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.INSERT_FOOD_DAY)));
-
-        JpaUtil.doInTransaction(em -> {
-            em.createNativeQuery(insertFoodDaySql)
-                    .setParameter("localDate", localDate)
-                    .executeUpdate();
-        });
-        System.out.println("Inserted Food Day: " + localDate);
     }
 
 }

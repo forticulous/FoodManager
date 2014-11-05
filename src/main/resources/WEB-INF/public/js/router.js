@@ -7,7 +7,7 @@ FoodManager.IndexRoute = Ember.Route.extend({
     redirect: function() {
         this.transitionTo('foodDays');
     }
-})
+});
 
 FoodManager.FoodDaysRoute = Ember.Route.extend({
     model: function() {
