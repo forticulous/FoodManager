@@ -35,12 +35,26 @@ public class FoodDayItemResource {
 
     @GET
     public Response findAllFoodDayItems(@QueryParam("localDate") LocalDate localDate) {
-        Optional<FoodDay> option = JpaUtil.returnFromTransaction(em -> getFoodDayByLocalDate(em, localDate));
+        Optional<FoodDay> option = JpaUtil.returnFromTransaction(em ->
+                getFoodDayByLocalDate(em, localDate));
 
         return option.map(FoodDay::getFoodDayItems)
             .map(Response::ok)
             .orElse(Response.ok(new JsonArray()))
             .build();
+    }
+
+    @GET
+    @Path("/{itemId}")
+    public Response getFoodDayItem(@QueryParam("itemId") String itemId) {
+        UUID itemUUID = UUID.fromString(itemId);
+
+        Optional<FoodDayItem> option = JpaUtil.returnFromTransaction(em ->
+                Optional.ofNullable(em.find(FoodDayItem.class, itemUUID)));
+
+        return option.map(Response::ok)
+              .orElse(Response.ok(new JsonObject()))
+              .build();
     }
 
     private Optional<FoodDay> getFoodDayByLocalDate(EntityManager em, LocalDate localDate) {
@@ -55,18 +69,6 @@ public class FoodDayItemResource {
             return Optional.empty();
         }
         return Optional.of(singleResult);
-    }
-
-    @GET
-    @Path("/{itemId}")
-    public Response getFoodDayItem(@QueryParam("itemId") String itemId) {
-        UUID itemUUID = UUID.fromString(itemId);
-
-        Optional<FoodDayItem> option = JpaUtil.returnFromTransaction(em -> Optional.ofNullable(em.find(FoodDayItem.class, itemUUID)));
-
-        return option.map(Response::ok)
-            .orElse(Response.ok(new JsonObject()))
-            .build();
     }
 
 }
