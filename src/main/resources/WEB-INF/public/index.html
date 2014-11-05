@@ -9,9 +9,13 @@
                 <ul id="fooodday-list">
                     {{#each}}
                         <li>
-                            {{#link-to 'foodDay' localDate}}{{localDate}}{{/link-to}}<br/>
-                            <label>{{localDate}}</label><br/>
-                            <label>{{calories}}</label>
+                            <h2>Details</h2>
+                            <dl>
+                                <dt>Date</dt>
+                                <dd>{{#link-to 'foodDay' localDate}}{{localDate}}{{/link-to}}</dd>
+                                <dt>Calories</dt>
+                                <dd>{{calories}}</dd>
+                            </dl>
                         </li>
                     {{/each}}
                 </ul>
@@ -20,8 +24,13 @@
 
         <script type="text/x-handlebars" data-template-name="foodDay">
             <section id="foodDaySection">
-                <label>{{localDate}}</label><br/>
-                <label>{{calories}}</label>
+                <h2>Details</h2>
+                <dl>
+                    <dt>Date</dt>
+                    <dd>{{localDate}}</dd>
+                    <dt>Calories</dt>
+                    <dd>{{calories}}</dd>
+                </dl>
             </section>
         </script>
 
