@@ -1,6 +1,5 @@
 package net.foodmanager.resources;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -112,17 +111,6 @@ public class FoodDayResource {
         obj.addProperty("calories", calories);
 
         return Response.ok(obj).build();
-    }
-
-    @GET
-    @Path("/items")
-    public Response findAllFoodDayItems(@QueryParam("localDate") LocalDate localDate) {
-        Optional<FoodDay> option = JpaUtil.returnFromTransaction(em -> getFoodDayByLocalDate(em, localDate));
-
-        return option.map(FoodDay::getFoodDayItems)
-            .map(Response::ok)
-            .orElse(Response.ok(new JsonArray()))
-            .build();
     }
 
     private Optional<FoodDay> getFoodDayByLocalDate(EntityManager em, LocalDate localDate) {
