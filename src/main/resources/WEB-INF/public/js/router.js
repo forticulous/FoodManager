@@ -11,7 +11,7 @@ FoodManager.IndexRoute = Ember.Route.extend({
 
 FoodManager.FoodDaysRoute = Ember.Route.extend({
     model: function() {
-        return this.store.find('foodDay');
+        return Ember.$.getJSON('/api/days');
     }
 });
 

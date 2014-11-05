@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,9 +33,28 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodDayResource {
 
+    public static final int MAX_RESULT = 10;
+
+    @Inject
+    @Named(SqlModule.FIND_ALL_FOOD_DAYS)
+    private String findAllFoodDays;
+
     @Inject
     @Named(SqlModule.GET_FOOD_DAY_BY_LOCAL_DATE)
     private String foodDayByLocalDateSql;
+
+    @GET
+    public Response findAllFoodDays() {
+        List<FoodDay> foodDays = JpaUtil.returnFromTransaction(em -> {
+            String sql = String.format(findAllFoodDays, FoodDay.class.getSimpleName());
+            TypedQuery<FoodDay> query = em.createQuery(sql, FoodDay.class)
+                    .setMaxResults(MAX_RESULT);
+
+            return query.getResultList();
+        });
+
+        return Response.ok(foodDays).build();
+    }
 
     @GET
     @Path("/{localDate}")

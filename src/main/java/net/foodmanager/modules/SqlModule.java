@@ -19,6 +19,7 @@ public class SqlModule extends AbstractModule {
     public static final String INSERT_FOOD_DAY = "insertFoodDay";
     public static final String INSERT_FOOD_DAY_ITEM = "insertFoodDayItem";
     public static final String GET_FOOD_DAY_BY_LOCAL_DATE = "getFoodDayByLocalDate";
+    public static final String FIND_ALL_FOOD_DAYS = "findAllFoodDays";
 
     @Override
     protected void configure() {
@@ -27,6 +28,7 @@ public class SqlModule extends AbstractModule {
         bindConstant().annotatedWith(Names.named(GET_FOOD_DAY_BY_LOCAL_DATE)).to(sqlProps.getProperty(GET_FOOD_DAY_BY_LOCAL_DATE));
         bindConstant().annotatedWith(Names.named(INSERT_FOOD_DAY)).to(sqlProps.getProperty(INSERT_FOOD_DAY));
         bindConstant().annotatedWith(Names.named(INSERT_FOOD_DAY_ITEM)).to(sqlProps.getProperty(INSERT_FOOD_DAY_ITEM));
+        bindConstant().annotatedWith(Names.named(FIND_ALL_FOOD_DAYS)).to(sqlProps.getProperty(FIND_ALL_FOOD_DAYS));
     }
 
     private Properties getProperties() {
