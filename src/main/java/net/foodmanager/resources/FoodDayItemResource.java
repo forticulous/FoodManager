@@ -14,8 +14,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDate;
@@ -34,7 +34,7 @@ public class FoodDayItemResource {
     private String foodDayByLocalDateSql;
 
     @GET
-    public Response findAllFoodDayItems(@QueryParam("localDate") LocalDate localDate) {
+    public Response findAllFoodDayItems(@PathParam("localDate") LocalDate localDate) {
         Optional<FoodDay> option = JpaUtil.returnFromTransaction(em ->
                 getFoodDayByLocalDate(em, localDate));
 
@@ -46,7 +46,7 @@ public class FoodDayItemResource {
 
     @GET
     @Path("/{itemId}")
-    public Response getFoodDayItem(@QueryParam("itemId") UUID itemId) {
+    public Response getFoodDayItem(@PathParam("itemId") UUID itemId) {
         Optional<FoodDayItem> option = JpaUtil.returnFromTransaction(em ->
                 Optional.ofNullable(em.find(FoodDayItem.class, itemId)));
 

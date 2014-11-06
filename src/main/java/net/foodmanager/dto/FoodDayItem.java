@@ -1,6 +1,7 @@
 package net.foodmanager.dto;
 
 import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
@@ -20,9 +21,13 @@ import java.util.UUID;
 @Table(name = "food_day_item")
 public class FoodDayItem {
 
+    @Expose
     private UUID id;
+    @Expose
     private String foodDescription;
+    @Expose
     private String meal;
+    @Expose
     private int calories;
     private FoodDay foodDay;
 

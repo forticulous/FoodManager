@@ -32,6 +32,30 @@
                     <dd>{{calories}}</dd>
                 </dl>
             </section>
+
+            {{#link-to 'foodDayItems' localDate}}Items{{/link-to}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="foodDayItems">
+            <section id="foodDayItemsSection">
+                <ul id="items-list">
+                    {{#each}}
+                        <li>
+                            <h2>Details</h2>
+                            <dl>
+                                <dt>Id</dt>
+                                <dd>{{id}}</dd>
+                                <dt>Description</dt>
+                                <dd>{{foodDescription}}</dd>
+                                <dt>Meal</dt>
+                                <dd>{{meal}}</dd>
+                                <dt>Calories</dt>
+                                <dd>{{calories}}</dd>
+                            </dl>
+                        </li>
+                    {{/each}}
+                </ul>
+            </section>
         </script>
 
         <script src="js/libs/jquery-1.10.2.min.js"></script>
@@ -41,5 +65,6 @@
         <script src="js/application.js"></script>
         <script src="js/router.js"></script>
         <script src="js/models/foodday.js"></script>
+        <script src="js/models/fooddayitem.js"></script>
     </body>
 </html>
