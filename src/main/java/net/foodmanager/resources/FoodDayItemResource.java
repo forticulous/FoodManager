@@ -13,11 +13,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,6 +56,29 @@ public class FoodDayItemResource {
         return option.map(Response::ok)
               .orElse(Response.ok(new JsonObject()))
               .build();
+    }
+
+    @POST
+    @Path("/new")
+    public Response insertFoodDayItem(@PathParam("localDate") LocalDate localDate,
+                                      FoodDayItem item) throws URISyntaxException {
+        Optional<UUID> optionId = JpaUtil.<Optional<UUID>> returnFromTransaction(em -> {
+            Optional<FoodDay> option = getFoodDayByLocalDate(em, localDate);
+            if (!option.isPresent()) {
+                return Optional.empty();
+            }
+            FoodDay managedFoodDay = option.get();
+            item.setFoodDay(managedFoodDay);
+            em.persist(item);
+            return Optional.of(item.getId());
+        });
+
+        if (!optionId.isPresent()) {
+            return Response.ok().build();
+        }
+        UUID uuid = optionId.get();
+        URI newUrl = new URI("/" + uuid);
+        return Response.created(newUrl).build();
     }
 
     private Optional<FoodDay> getFoodDayByLocalDate(EntityManager em, LocalDate localDate) {

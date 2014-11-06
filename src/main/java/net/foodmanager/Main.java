@@ -3,15 +3,12 @@ package net.foodmanager;
 import com.google.common.io.Resources;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
 import net.foodmanager.jaxrs.GsonReaderWriter;
 import net.foodmanager.jaxrs.LocalDateParamConverterProvider;
 import net.foodmanager.jaxrs.UUIDParamConverterProvider;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
-import net.foodmanager.util.JpaUtil;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -33,10 +30,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
-        main.run(args);
+        main.run();
     }
 
-    public void run(String[] args) throws Exception {
+    public void run() throws Exception {
         System.out.println("FoodManager started");
 
         Injector injector = Guice.createInjector(new JpaModule(), new SqlModule(), new ResourceModule());
@@ -45,8 +42,6 @@ public class Main {
         server.setHandler(buildHandlers(injector));
         server.start();
         server.join();
-
-        //insertFoodDayItem(args, injector);
 
         System.exit(0);
     }
@@ -89,28 +84,6 @@ public class Main {
         ServletContextHandler handler = new ServletContextHandler();
         handler.addServlet(apiHolder, "/api/*");
         return handler;
-    }
-
-    private void insertFoodDayItem(String[] args, Injector injector) {
-        if (args.length < 4) {
-            throw new IllegalArgumentException("Missing required number of arguments");
-        }
-        String localDate = args[0];
-        String foodDesc = args[1];
-        String meal = args[2];
-        long calories = Long.parseLong(args[3]);
-
-        String insertFoodDayItemSql = injector.getInstance(Key.get(String.class, Names.named(SqlModule.INSERT_FOOD_DAY_ITEM)));
-
-        JpaUtil.doInTransaction(em ->
-            em.createNativeQuery(insertFoodDayItemSql)
-                    .setParameter("localDate", localDate)
-                    .setParameter("foodDesc", foodDesc)
-                    .setParameter("meal", meal)
-                    .setParameter("calories", calories)
-                    .executeUpdate()
-        );
-        System.out.println("Inserted Food Day Item");
     }
 
 }
