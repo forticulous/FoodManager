@@ -3,7 +3,7 @@ package net.foodmanager.resources;
 /**
  * Immutable container for pagination bounds
  *
- * @author mgibs6
+ * @author fort
  */
 public class Pagination {
 

@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * @author mgibs6
+ * @author fort
  */
 @Path("/days/{localDate}/items")
 @Produces(MediaType.APPLICATION_JSON)
@@ -46,11 +46,9 @@ public class FoodDayItemResource {
 
     @GET
     @Path("/{itemId}")
-    public Response getFoodDayItem(@QueryParam("itemId") String itemId) {
-        UUID itemUUID = UUID.fromString(itemId);
-
+    public Response getFoodDayItem(@QueryParam("itemId") UUID itemId) {
         Optional<FoodDayItem> option = JpaUtil.returnFromTransaction(em ->
-                Optional.ofNullable(em.find(FoodDayItem.class, itemUUID)));
+                Optional.ofNullable(em.find(FoodDayItem.class, itemId)));
 
         return option.map(Response::ok)
               .orElse(Response.ok(new JsonObject()))

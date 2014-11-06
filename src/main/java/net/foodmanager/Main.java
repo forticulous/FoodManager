@@ -7,6 +7,7 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 import net.foodmanager.jaxrs.GsonReaderWriter;
 import net.foodmanager.jaxrs.LocalDateParamConverterProvider;
+import net.foodmanager.jaxrs.UUIDParamConverterProvider;
 import net.foodmanager.modules.JpaModule;
 import net.foodmanager.modules.ResourceModule;
 import net.foodmanager.modules.SqlModule;
@@ -79,6 +80,7 @@ public class Main {
         ResourceConfig resourceConfig = injector.getInstance(ResourceConfig.class);
         resourceConfig.register(GsonReaderWriter.class);
         resourceConfig.register(LocalDateParamConverterProvider.class);
+        resourceConfig.register(UUIDParamConverterProvider.class);
 
         ServletContainer apiServlet = new ServletContainer(resourceConfig);
 

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author mgibs6
+ * @author fort
  */
 public class LocalDateParamConverter implements ParamConverter<LocalDate> {
 
