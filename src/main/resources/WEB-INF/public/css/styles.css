@@ -1,0 +1,7 @@
+dl dt {
+    font-weight: bold
+}
+
+dl dd {
+    display: inline-block;
+}
