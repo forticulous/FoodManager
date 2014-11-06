@@ -1,7 +1,8 @@
 dl dt {
-    font-weight: bold
+    font-weight: bold;
 }
 
-dl dd {
+dl dt, dl dd {
     display: inline-block;
+    margin: 0px 0px 0.5em;
 }
