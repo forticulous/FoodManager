@@ -19,8 +19,10 @@ FoodManager.FoodDaysRoute = Ember.Route.extend({
 
 FoodManager.FoodDayRoute = Ember.Route.extend({
     model: function(params) {
-        return Ember.$.getJSON('/api/days/' + params.localDate + '/calories').then(function(resp) {
-            return Ember.$.extend({}, { localDate: params.localDate }, resp);
+        var dayCall = Ember.$.getJSON('/api/days/' + params.localDate);
+        var caloriesCall = Ember.$.getJSON('/api/days/' + params.localDate + '/calories');
+        return Ember.$.when(dayCall, caloriesCall).then(function(dayResult, caloriesResult) {
+            return Ember.$.extend({}, dayResult[0], caloriesResult[0]);
         });
     }
 });
