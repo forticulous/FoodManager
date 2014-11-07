@@ -1,5 +1,6 @@
 FoodManager.Router.map(function() {
     this.resource('foodDays', { path: '/days' });
+    this.resource('foodDays.new', { path: '/days/new' });
     this.resource('foodDay', { path: '/days/:localDate' });
     this.resource('foodDayItems', { path: '/days/:localDate/items' });
 });

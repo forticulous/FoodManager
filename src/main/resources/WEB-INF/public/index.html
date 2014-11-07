@@ -7,7 +7,8 @@
     <body>
         <script type="text/x-handlebars" data-template-name="foodDays">
             <section id="foodDaysSection">
-                <ul id="fooodday-list">
+                {{#link-to 'foodDays.new'}}Add new{{/link-to}}
+                <ul id="foodday-list">
                     {{#each}}
                         <li>
                             <h2>Details</h2>
@@ -20,6 +21,18 @@
                         </li>
                     {{/each}}
                 </ul>
+            </section>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="foodDays/new">
+            <section id="foodDaysNewSection">
+                {{input type="text" id="new-foodday" placeholder="What day? (e.g. 2014-10-10)" value=newLocalDate}}
+                <button {{action 'createFoodDay' target='controller'}}>Submit</button>
+                <!--<form action="" method="post">
+                    <label for="txtLocalDate">Date</label>
+                    <input id="txtLocalDate" type="text" name="localDate"/>
+                    <input type="submit" value="Save"/>
+                </form>-->
             </section>
         </script>
 
@@ -65,6 +78,7 @@
         <script src="js/libs/ember-data.js"></script>
         <script src="js/application.js"></script>
         <script src="js/router.js"></script>
+        <script src="js/controllers/controller.js"></script>
         <script src="js/models/foodday.js"></script>
         <script src="js/models/fooddayitem.js"></script>
     </body>
