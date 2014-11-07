@@ -1,6 +1,6 @@
 dl dt, dl dd {
     display: inline-block;
-    margin: 0px 0px 0.5em;
+    margin-bottom: 0.5em;
 }
 
 dl dt {
@@ -10,4 +10,5 @@ dl dt {
 
 dl dd {
     width: 66%;
+    margin-left: 0px;
 }
