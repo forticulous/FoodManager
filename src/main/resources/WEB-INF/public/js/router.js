@@ -3,6 +3,7 @@ FoodManager.Router.map(function() {
     this.resource('foodDays.new', { path: '/days/new' });
     this.resource('foodDay', { path: '/days/:localDate' });
     this.resource('foodDayItems', { path: '/days/:localDate/items' });
+    this.resource('foodDayItem.new', { path: '/days/:localDate/items/new' });
 });
 
 FoodManager.IndexRoute = Ember.Route.extend({
@@ -29,6 +30,11 @@ FoodManager.FoodDayRoute = Ember.Route.extend({
 
 FoodManager.FoodDayItemsRoute = Ember.Route.extend({
     model: function(params) {
+        this.set('localDate', params.localDate);
         return Ember.$.getJSON('/api/days/' + params.localDate + '/items');
+    },
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        controller.set('localDate', this.get('localDate'));
     }
 });

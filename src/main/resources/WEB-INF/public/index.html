@@ -7,7 +7,7 @@
     <body>
         <script type="text/x-handlebars" data-template-name="foodDays">
             <section id="foodDaysSection">
-                {{#link-to 'foodDays.new'}}Add new{{/link-to}}
+                {{#link-to 'foodDays.new'}}Add New{{/link-to}}
                 <ul id="foodday-list">
                     {{#each}}
                         <li>
@@ -28,11 +28,6 @@
             <section id="foodDaysNewSection">
                 {{input type="text" id="new-foodday" placeholder="What day? (e.g. 2014-10-10)" value=newLocalDate}}
                 <button {{action 'createFoodDay' target='controller'}}>Submit</button>
-                <!--<form action="" method="post">
-                    <label for="txtLocalDate">Date</label>
-                    <input id="txtLocalDate" type="text" name="localDate"/>
-                    <input type="submit" value="Save"/>
-                </form>-->
             </section>
         </script>
 
@@ -69,6 +64,17 @@
                         </li>
                     {{/each}}
                 </ul>
+            </section>
+
+            {{#link-to 'foodDayItem.new' controller.localDate}}Add More{{/link-to}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="foodDayItem/new">
+            <section id="foodDayItemNewSection">
+                {{input type="text" id="new-desc" placeholder="Description?" value=newDescription}}
+                {{input type="text" id="new-meal" placeholder="Meal?" value=newMeal}}
+                {{input type="text" id="new-cals" placeholder="Calories?" value=newCalories}}
+                <button {{action 'createFoodDayItem' target='controller'}}>Submit</button>
             </section>
         </script>
 
