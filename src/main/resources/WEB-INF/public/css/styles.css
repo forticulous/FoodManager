@@ -1,8 +1,13 @@
-dl dt {
-    font-weight: bold;
-}
-
 dl dt, dl dd {
     display: inline-block;
     margin: 0px 0px 0.5em;
+}
+
+dl dt {
+    font-weight: bold;
+    width: 33%;
+}
+
+dl dd {
+    width: 66%;
 }
