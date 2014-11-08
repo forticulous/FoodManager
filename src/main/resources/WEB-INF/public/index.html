@@ -6,8 +6,10 @@
     </head>
     <body>
         <script type="text/x-handlebars" data-template-name="foodDays">
-            <section id="foodDaysSection">
+            <header>
                 {{#link-to 'foodDays.new'}}Add New{{/link-to}}
+            </header>
+            <section id="foodDaysSection">
                 <ul id="foodday-list">
                     {{#each}}
                         <li>
@@ -25,6 +27,9 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="foodDays/new">
+            <header>
+                {{#link-to 'foodDays'}}Back{{/link-to}}
+            </header>
             <section id="foodDaysNewSection">
                 {{input type="text" id="new-foodday" placeholder="What day? (e.g. 2014-10-10)" value=newLocalDate}}
                 <button {{action 'createFoodDay' target='controller'}}>Submit</button>
@@ -32,6 +37,9 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="foodDay">
+            <header>
+                {{#link-to 'foodDayItems' localDate}}Items{{/link-to}}
+            </header>
             <section id="foodDaySection">
                 <h2>Details</h2>
                 <dl>
@@ -41,11 +49,12 @@
                     <dd>{{calories}}</dd>
                 </dl>
             </section>
-
-            {{#link-to 'foodDayItems' localDate}}Items{{/link-to}}
         </script>
 
         <script type="text/x-handlebars" data-template-name="foodDayItems">
+            <header>
+                {{#link-to 'foodDayItem.new' controller.localDate}}Add More{{/link-to}}
+            </header>
             <section id="foodDayItemsSection">
                 <ul id="items-list">
                     {{#each}}
@@ -65,11 +74,12 @@
                     {{/each}}
                 </ul>
             </section>
-
-            {{#link-to 'foodDayItem.new' controller.localDate}}Add More{{/link-to}}
         </script>
 
         <script type="text/x-handlebars" data-template-name="foodDayItem/new">
+            <header>
+                {{#link-to 'foodDayItems'}}Back{{/link-to}}
+            </header>
             <section id="foodDayItemNewSection">
                 {{input type="text" id="new-desc" placeholder="Description?" value=newDescription}}
                 {{input type="text" id="new-meal" placeholder="Meal?" value=newMeal}}

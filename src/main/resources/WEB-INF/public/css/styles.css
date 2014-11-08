@@ -12,3 +12,7 @@ dl dd {
     width: 66%;
     margin-left: 0px;
 }
+
+header {
+    margin: 0.5em auto 0.5em auto;
+}
