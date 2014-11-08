@@ -12,3 +12,6 @@ FoodManager.ApplicationAdapter = DS.RESTAdapter.extend({
         }
     }
 });
+
+// Use JsonSerializer instead of RESTSerializer because it is too opinionated
+FoodManager.ApplicationSerializer = DS.JSONSerializer.extend();

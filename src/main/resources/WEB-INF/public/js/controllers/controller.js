@@ -48,6 +48,8 @@ FoodManager.FoodDayItemNewController = Ember.ObjectController.extend({
             this.set('newMeal', '');
             this.set('newCalories', '');
 
+            foodDayItem.set('localDate', this.get('localDate'));
+
             foodDayItem.save();
         }
     }

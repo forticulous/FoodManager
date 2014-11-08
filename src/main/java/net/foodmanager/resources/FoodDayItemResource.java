@@ -62,21 +62,17 @@ public class FoodDayItemResource {
     @Path("/new")
     public Response insertFoodDayItem(@PathParam("localDate") LocalDate localDate,
                                       FoodDayItem item) throws URISyntaxException {
-        Optional<UUID> optionId = JpaUtil.<Optional<UUID>> returnFromTransaction(em -> {
+        final UUID uuid = UUID.randomUUID();
+        JpaUtil.doInTransaction(em -> {
             Optional<FoodDay> option = getFoodDayByLocalDate(em, localDate);
-            if (!option.isPresent()) {
-                return Optional.empty();
-            }
-            FoodDay managedFoodDay = option.get();
-            item.setFoodDay(managedFoodDay);
-            em.persist(item);
-            return Optional.of(item.getId());
+            option.ifPresent(fd -> {
+                item.setId(uuid);
+                item.setFoodDay(fd);
+                em.persist(item);
+            });
         });
 
-        if (!optionId.isPresent()) {
-            return Response.ok().build();
-        }
-        UUID uuid = optionId.get();
+        // TODO: make sure this url is correct
         URI newUrl = new URI("/" + uuid);
         return Response.created(newUrl).build();
     }

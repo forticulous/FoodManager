@@ -30,11 +30,11 @@ FoodManager.FoodDayRoute = Ember.Route.extend({
 
 FoodManager.FoodDayItemsRoute = Ember.Route.extend({
     model: function(params) {
-        this.set('localDate', params.localDate);
         return Ember.$.getJSON('/api/days/' + params.localDate + '/items');
     },
     setupController: function(controller, model) {
         this._super(controller, model);
-        controller.set('localDate', this.get('localDate'));
+        var foodDay = this.modelFor('foodDay');
+        controller.set('localDate', foodDay.localDate);
     }
 });

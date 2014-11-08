@@ -82,6 +82,7 @@ public class FoodDayResource {
                 em.persist(newFoodDay)
         );
 
+        // TODO: make sure this url is correct
         URI newUrl = new URI("/" + localDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
         return Response.created(newUrl).build();
     }
