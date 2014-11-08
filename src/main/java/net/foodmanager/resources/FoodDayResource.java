@@ -58,6 +58,11 @@ public class FoodDayResource {
             return query.getResultList();
         });
 
+        foodDays.forEach(fd -> {
+            int cals = calculateCals(fd);
+            fd.setCalories(cals);
+        });
+
         return Response.ok(foodDays).build();
     }
 
@@ -65,6 +70,11 @@ public class FoodDayResource {
     @Path("/{localDate}")
     public Response foodDayByLocalDate(@PathParam("localDate") LocalDate localDate) {
         Optional<FoodDay> foodDay = JpaUtil.returnFromTransaction(em -> getFoodDayByLocalDate(em, localDate));
+
+        foodDay.ifPresent(fd -> {
+            int calories = calculateCals(fd);
+            fd.setCalories(calories);
+        });
 
         return foodDay.map(Response::ok)
                 .orElse(Response.ok(new JsonObject()))
@@ -99,23 +109,6 @@ public class FoodDayResource {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/{localDate}/calories")
-    public Response getCaloriesForDay(@PathParam("localDate") LocalDate localDate) {
-        Optional<FoodDay> option = JpaUtil.returnFromTransaction(em -> getFoodDayByLocalDate(em, localDate));
-
-        int calories = option.<Integer> map(fd ->
-            fd.getFoodDayItems().stream()
-                .mapToInt(FoodDayItem::getCalories)
-                .sum()
-        ).orElse(0);
-
-        JsonObject obj = new JsonObject();
-        obj.addProperty("calories", calories);
-
-        return Response.ok(obj).build();
-    }
-
     private Optional<FoodDay> getFoodDayByLocalDate(EntityManager em, LocalDate localDate) {
         String sql = String.format(foodDayByLocalDateSql, FoodDay.class.getSimpleName());
         TypedQuery<FoodDay> query = em.createQuery(sql, FoodDay.class)
@@ -128,6 +121,12 @@ public class FoodDayResource {
             return Optional.empty();
         }
         return Optional.of(singleResult);
+    }
+
+    private int calculateCals(FoodDay fd) {
+        return fd.getFoodDayItems().stream()
+                .mapToInt(FoodDayItem::getCalories)
+                .sum();
     }
 
 }

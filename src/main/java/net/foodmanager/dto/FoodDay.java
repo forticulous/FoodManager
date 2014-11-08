@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +34,8 @@ public class FoodDay {
     @Expose
     private LocalDate localDate;
     private List<FoodDayItem> foodDayItems;
+    @Expose
+    private int calories;
 
     @Id
     @Column(name = "food_day_id")
@@ -60,6 +63,15 @@ public class FoodDay {
 
     public void setFoodDayItems(List<FoodDayItem> foodDayItems) {
         this.foodDayItems = foodDayItems;
+    }
+
+    @Transient
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
     }
 
     @Override
