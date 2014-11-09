@@ -13,6 +13,10 @@ dl dd {
     margin-left: 0px;
 }
 
+li {
+    list-style: none;
+}
+
 dl {
     width: 50%;
 }

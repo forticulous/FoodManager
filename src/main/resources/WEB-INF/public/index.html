@@ -56,6 +56,7 @@
         <script type="text/x-handlebars" data-template-name="foodDayItems">
             <header>
                 {{#link-to 'foodDays'}}Days{{/link-to}}
+                {{#link-to 'foodDay' controller.localDate}}{{controller.localDate}}{{/link-to}}
                 {{#link-to 'foodDayItem.new' controller.localDate}}Add New Item{{/link-to}}
             </header>
             <section id="foodDayItemsSection">
