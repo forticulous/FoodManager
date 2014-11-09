@@ -13,7 +13,7 @@
                 <ul id="foodday-list">
                     {{#each}}
                         <li>
-                            <h2>Details</h2>
+                            <hr/>
                             <dl>
                                 <dt>Date</dt>
                                 <dd>{{#link-to 'foodDay' localDate}}{{localDate}}{{/link-to}}</dd>
@@ -22,6 +22,7 @@
                             </dl>
                         </li>
                     {{/each}}
+                    <hr/>
                 </ul>
             </section>
         </script>
@@ -61,7 +62,7 @@
                 <ul id="items-list">
                     {{#each}}
                         <li>
-                            <h2>Details</h2>
+                            <hr/>
                             <dl>
                                 <dt>Description</dt>
                                 <dd>{{foodDescription}}</dd>
@@ -72,6 +73,7 @@
                             </dl>
                         </li>
                     {{/each}}
+                    <hr/>
                 </ul>
             </section>
         </script>
@@ -85,7 +87,7 @@
                 {{input type="text" id="new-meal" placeholder="Meal?" value=newMeal}}
                 {{input type="text" id="new-cals" placeholder="Calories?" value=newCalories}}
                 <button {{action 'createFoodDayItem' target='controller'}}>Submit</button>
-                <hr>
+                <hr/>
                 <dl>
                     <dt>Calorie Calculation Helper</dt>
                     <dd></dd>
