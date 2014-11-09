@@ -20,3 +20,7 @@ dl {
 header {
     margin: 0.5em auto 0.5em auto;
 }
+
+header a {
+    margin-right: 3em;
+}

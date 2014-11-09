@@ -7,7 +7,7 @@
     <body>
         <script type="text/x-handlebars" data-template-name="foodDays">
             <header>
-                {{#link-to 'foodDays.new'}}Add New{{/link-to}}
+                {{#link-to 'foodDays.new'}}Add New Day{{/link-to}}
             </header>
             <section id="foodDaysSection">
                 <ul id="foodday-list">
@@ -38,6 +38,7 @@
 
         <script type="text/x-handlebars" data-template-name="foodDay">
             <header>
+                {{#link-to 'foodDays'}}Days{{/link-to}}
                 {{#link-to 'foodDayItems' localDate}}Items{{/link-to}}
             </header>
             <section id="foodDaySection">
@@ -53,7 +54,8 @@
 
         <script type="text/x-handlebars" data-template-name="foodDayItems">
             <header>
-                {{#link-to 'foodDayItem.new' controller.localDate}}Add More{{/link-to}}
+                {{#link-to 'foodDays'}}Days{{/link-to}}
+                {{#link-to 'foodDayItem.new' controller.localDate}}Add New Item{{/link-to}}
             </header>
             <section id="foodDayItemsSection">
                 <ul id="items-list">
