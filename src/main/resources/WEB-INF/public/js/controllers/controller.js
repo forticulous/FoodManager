@@ -17,6 +17,7 @@ FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
             this.set('newLocalDate', '');
 
             foodDay.save();
+            this.transitionToRoute('foodDays');
         }
     }
 });
@@ -58,12 +59,12 @@ FoodManager.FoodDayItemNewController = Ember.ObjectController.extend({
             var calsPerServing = this.get('calsPerServingVal');
             var servings = this.get('servingsVal');
 
-            var calculated = cals.length === 0 ? 0 : parseInt(cals, 10);
-            var perServingVal = calsPerServing.length === 0 ? 0 : parseInt(calsPerServing, 10);
-            var servingsVal = servings.length === 0 ? 1.0 : parseFloat(servings, 10);
-            calculated += Math.trunc(perServingVal * servingsVal);
+            var cals = FoodManager.utils.parseIntOrDefault(cals, 10, 0);
+            var calsPerServing = FoodManager.utils.parseIntOrDefault(calsPerServing, 10, 0);
+            var servings = FoodManager.utils.parseFloatOrDefault(servings, 10, 1.0);
+            cals += Math.trunc(calsPerServing * servings);
 
-            this.set('newCalories', calculated);
+            this.set('newCalories', cals);
             this.set('calsPerServingVal', '');
             this.set('servingsVal', '');
         }
