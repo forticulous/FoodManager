@@ -6,7 +6,10 @@ FoodManager.ApplicationAdapter = DS.RESTAdapter.extend({
             case 'foodDay':
                 return '/api/days/' + record.get('localDate');
             case 'foodDayItem':
-                return '/api/days/' + record.get('localDate') + '/items/new';
+                if (record.get('isNew') === true) {
+                    return '/api/days/' + record.get('localDate') + '/items/new';
+                }
+                return null;
             default:
                 return null;
         }
