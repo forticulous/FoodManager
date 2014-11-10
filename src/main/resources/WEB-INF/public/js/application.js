@@ -4,7 +4,7 @@ FoodManager.ApplicationAdapter = DS.RESTAdapter.extend({
     buildURL: function(type, id, record) {
         switch(type) {
             case 'foodDay':
-                return '/api/days/' + record.get('localDate');
+                return '/api/days/' + id;
             case 'foodDayItem':
                 if (record.get('isNew') === true) {
                     return '/api/days/' + record.get('localDate') + '/items/new';

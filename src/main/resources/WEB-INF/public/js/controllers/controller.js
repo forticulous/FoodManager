@@ -17,7 +17,6 @@ FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
             this.set('newLocalDate', '');
 
             foodDay.save().then(function() {
-                console.log('in callback');
                 this.transitionToRoute('foodDays');
             }.bind(this));
         }

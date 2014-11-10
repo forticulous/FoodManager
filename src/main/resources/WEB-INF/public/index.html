@@ -6,6 +6,10 @@
     </head>
     <body>
         <script type="text/x-handlebars" data-template-name="foodDays">
+            {{outlet}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="foodDays/index">
             <header>
                 {{#link-to 'foodDays.new'}}Add New Day{{/link-to}}
             </header>
@@ -38,6 +42,10 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="foodDay">
+        {{outlet}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="foodDay/index">
             <header>
                 {{#link-to 'foodDays'}}Days{{/link-to}}
                 {{#link-to 'foodDayItems' localDate}}Items{{/link-to}}
@@ -54,10 +62,14 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="foodDayItems">
+            {{outlet}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="foodDayItems/index">
             <header>
                 {{#link-to 'foodDays'}}Days{{/link-to}}
-                {{#link-to 'foodDay' controller.localDate}}{{controller.localDate}}{{/link-to}}
-                {{#link-to 'foodDayItem.new' controller.localDate}}Add New Item{{/link-to}}
+                {{#link-to 'foodDay'}}{{localDate}}{{/link-to}}
+                {{#link-to 'foodDayItems.new'}}Add New Item{{/link-to}}
             </header>
             <section id="foodDayItemsSection">
                 <ul id="items-list">
@@ -79,9 +91,9 @@
             </section>
         </script>
 
-        <script type="text/x-handlebars" data-template-name="foodDayItem/new">
+        <script type="text/x-handlebars" data-template-name="foodDayItems/new">
             <header>
-                {{#link-to 'foodDayItems' controller.localDate}}Cancel{{/link-to}}
+                {{#link-to 'foodDayItems'}}Cancel{{/link-to}}
             </header>
             <section id="foodDayItemNewSection">
                 {{input type="text" id="new-desc" placeholder="Description?" value=newDescription}}
