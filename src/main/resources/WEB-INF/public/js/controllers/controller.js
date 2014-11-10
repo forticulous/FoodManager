@@ -23,7 +23,7 @@ FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
     }
 });
 
-FoodManager.FoodDayItemNewController = Ember.ObjectController.extend({
+FoodManager.FoodDayItemsNewController = Ember.ObjectController.extend({
     actions: {
         createFoodDayItem: function() {
             var desc = this.get('newDescription');
