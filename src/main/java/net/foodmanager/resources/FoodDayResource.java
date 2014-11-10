@@ -94,7 +94,7 @@ public class FoodDayResource {
 
         // TODO: make sure this url is correct
         URI newUrl = new URI("/" + localDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        return Response.created(newUrl).build();
+        return Response.created(newUrl).entity(newFoodDay).build();
     }
 
     @DELETE

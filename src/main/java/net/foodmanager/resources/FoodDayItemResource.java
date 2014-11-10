@@ -74,7 +74,7 @@ public class FoodDayItemResource {
 
         // TODO: make sure this url is correct
         URI newUrl = new URI("/" + uuid);
-        return Response.created(newUrl).build();
+        return Response.created(newUrl).entity(item).build();
     }
 
     private Optional<FoodDay> getFoodDayByLocalDate(EntityManager em, LocalDate localDate) {
