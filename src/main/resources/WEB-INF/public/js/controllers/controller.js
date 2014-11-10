@@ -2,7 +2,7 @@ FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
     actions: {
         createFoodDay: function() {
             var localDate = this.get('newLocalDate');
-            if (localDate === null || localDate === undefined) {
+            if (FoodManager.utils.isUnset(localDate)) {
                 return false;
             }
             if (localDate.match(/^\d{4}-\d{2}-\d{2}$/) === null) {
@@ -29,14 +29,9 @@ FoodManager.FoodDayItemNewController = Ember.ObjectController.extend({
             var desc = this.get('newDescription');
             var meal = this.get('newMeal');
             var cals = this.get('newCalories');
-            if (desc === null || desc === undefined ||
-                meal === null || meal === undefined ||
-                cals === null || cals === undefined) {
-                return false;
-            }
-            if (desc.length === 0 ||
-                meal.length === 0 ||
-                cals.length === 0) {
+            if (FoodManager.utils.isUnset(desc) ||
+                FoodManager.utils.isUnset(meal) ||
+                FoodManager.utils.isUnset(cals)) {
                 return false;
             }
 
