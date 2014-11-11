@@ -23,7 +23,9 @@ FoodManager.FoodDaysRoute = Ember.Route.extend({
 
 FoodManager.FoodDayRoute = Ember.Route.extend({
     model: function(params) {
-        return this.store.find('foodDay', params.localDate);
+        var rec = Ember.Object.create();
+        rec.set('localDate', params.localDate);
+        return this.store.find('foodDay', 0, rec);
     }
 });
 
