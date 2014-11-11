@@ -41,6 +41,8 @@ FoodManager.FoodDayItemsNewController = Ember.ObjectController.extend({
                 calories: cals
             });
 
+            foodDayItem.set('localDate', this.model.get('localDate'));
+
             this.set('newDescription', '');
             this.set('newMeal', '');
             this.set('newCalories', '');
