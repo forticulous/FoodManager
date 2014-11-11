@@ -16,8 +16,8 @@
             <section id="foodDaysSection">
                 <ul id="foodday-list">
                     {{#each}}
+                        <hr/>
                         <li>
-                            <hr/>
                             <dl>
                                 <dt>Date</dt>
                                 <dd>{{#link-to 'foodDay' localDate}}{{localDate}}{{/link-to}}</dd>
@@ -74,8 +74,8 @@
             <section id="foodDayItemsSection">
                 <ul id="items-list">
                     {{#each}}
+                        <hr/>
                         <li>
-                            <hr/>
                             <dl>
                                 <dt>Description</dt>
                                 <dd>{{foodDescription}}</dd>
@@ -121,7 +121,7 @@
         <script src="js/application.js"></script>
         <script src="js/utils.js"></script>
         <script src="js/router.js"></script>
-        <script src="js/controllers/controller.js"></script>
+        <script src="js/controller.js"></script>
         <script src="js/models/foodday.js"></script>
         <script src="js/models/fooddayitem.js"></script>
     </body>
