@@ -17,6 +17,8 @@ FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
             this.set('newLocalDate', '');
 
             foodDay.save().then(function() {
+                // Hack to get the parent route to refresh
+                this.send('refreshFoodDays');
                 this.transitionToRoute('foodDays');
             }.bind(this));
         }
@@ -48,6 +50,8 @@ FoodManager.FoodDayItemsNewController = Ember.ObjectController.extend({
             this.set('newCalories', '');
 
             foodDayItem.save().then(function() {
+                // Hack to get the parent route to refresh
+                this.send('refreshFoodDayItems');
                 this.transitionToRoute('foodDayItems');
             }.bind(this));
         },

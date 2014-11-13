@@ -18,6 +18,11 @@ FoodManager.IndexRoute = Ember.Route.extend({
 FoodManager.FoodDaysRoute = Ember.Route.extend({
     model: function() {
         return Ember.$.getJSON('/api/days');
+    },
+    actions: {
+        refreshFoodDays: function() {
+            this.refresh();
+        }
     }
 });
 
@@ -33,6 +38,11 @@ FoodManager.FoodDayItemsRoute = Ember.Route.extend({
     model: function(params) {
         var foodDay = this.modelFor('foodDay');
         return Ember.$.getJSON('/api/days/' + foodDay.get('localDate') + '/items');
+    },
+    actions: {
+        refreshFoodDayItems: function() {
+            this.refresh();
+        }
     }
 });
 
