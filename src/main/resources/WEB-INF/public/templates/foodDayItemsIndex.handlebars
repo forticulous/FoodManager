@@ -1,0 +1,23 @@
+<header>
+    {{#link-to 'foodDays'}}Days{{/link-to}}
+    {{#link-to 'foodDay'}}{{localDate}}{{/link-to}}
+    {{#link-to 'foodDayItems.new'}}Add New Item{{/link-to}}
+</header>
+<section id="foodDayItemsSection">
+    <ul id="items-list">
+        {{#each}}
+        <hr/>
+        <li>
+            <dl>
+                <dt>Description</dt>
+                <dd>{{foodDescription}}</dd>
+                <dt>Meal</dt>
+                <dd>{{meal}}</dd>
+                <dt>Calories</dt>
+                <dd>{{calories}}</dd>
+            </dl>
+        </li>
+        {{/each}}
+        <hr/>
+    </ul>
+</section>
