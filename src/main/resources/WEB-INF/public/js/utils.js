@@ -23,9 +23,9 @@ FoodManager.Utils = Ember.Object.extend({
             }
         });
     },
-    compileManyTemplates: function(paths, names) {
-        for (var i = 0; i < paths.length; i++) {
-            this.compileTemplate(paths[i], names[i]);
+    compileManyTemplates: function(pathNames) {
+        for (var i = 0; i < pathNames.length; i++) {
+            this.compileTemplate(pathNames[i][0], pathNames[i][1]);
         }
     }
 });
@@ -36,19 +36,12 @@ FoodManager.reopen({
 
 // Load templates
 (function() {
-    var paths = [
-        'templates/foodDayIndex.handlebars',
-        'templates/foodDayItemsIndex.handlebars',
-        'templates/foodDayItemsNew.handlebars',
-        'templates/foodDaysIndex.handlebars',
-        'templates/foodDaysNew.handlebars'
+    var pathNames = [
+        ['templates/foodDayIndex.handlebars', 'foodDay/index'],
+        ['templates/foodDayItemsIndex.handlebars', 'foodDayItems/index'],
+        ['templates/foodDayItemsNew.handlebars', 'foodDayItems/new'],
+        ['templates/foodDaysIndex.handlebars', 'foodDays/index'],
+        ['templates/foodDaysNew.handlebars', 'foodDays/new']
     ];
-    var names = [
-        'foodDay/index',
-        'foodDayItems/index',
-        'foodDayItems/new',
-        'foodDays/index',
-        'foodDays/new'
-    ];
-    FoodManager.utils.compileManyTemplates(paths, names);
+    FoodManager.utils.compileManyTemplates(pathNames);
 })();
