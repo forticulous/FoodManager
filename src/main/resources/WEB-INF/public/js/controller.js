@@ -1,8 +1,8 @@
-FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
+FoodManager.FoodDaysNewController = Ember.Controller.extend({
     actions: {
         createFoodDay: function() {
             var localDate = this.get('newLocalDate');
-            if (FoodManager.utils.isUnset(localDate)) {
+            if (Em.isBlank(localDate)) {
                 return false;
             }
             if (localDate.match(/^\d{4}-\d{2}-\d{2}$/) === null) {
@@ -25,15 +25,15 @@ FoodManager.FoodDaysNewController = Ember.ArrayController.extend({
     }
 });
 
-FoodManager.FoodDayItemsNewController = Ember.ObjectController.extend({
+FoodManager.FoodDayItemsNewController = Ember.Controller.extend({
     actions: {
         createFoodDayItem: function() {
             var desc = this.get('newDescription');
             var meal = this.get('newMeal');
             var cals = this.get('newCalories');
-            if (FoodManager.utils.isUnset(desc) ||
-                FoodManager.utils.isUnset(meal) ||
-                FoodManager.utils.isUnset(cals)) {
+            if (Em.isBlank(desc) ||
+                Em.isBlank(meal) ||
+                Em.isBlank(cals)) {
                 return false;
             }
 
@@ -60,9 +60,9 @@ FoodManager.FoodDayItemsNewController = Ember.ObjectController.extend({
             var calsPerServing = this.get('calsPerServingVal');
             var servings = this.get('servingsVal');
 
-            var cals = FoodManager.utils.parseIntOrDefault(cals, 10, 0);
-            var calsPerServing = FoodManager.utils.parseIntOrDefault(calsPerServing, 10, 0);
-            var servings = FoodManager.utils.parseFloatOrDefault(servings, 10, 1.0);
+            var cals = Em.isEmpty(cals) ? 0 : parseInt(cals, 10);
+            var calsPerServing = Em.isEmpty(calsPerServing) ? 0 : parseInt(calsPerServing, 10);
+            var servings = Em.isEmpty(servings) ? 1.0 : parseFloat(servings, 10);
             cals += Math.trunc(calsPerServing * servings);
 
             this.set('newCalories', cals);
