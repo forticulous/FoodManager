@@ -52,6 +52,7 @@ FoodManager.FoodDayItemsNewController = Ember.Controller.extend({
             foodDayItem.save().then(function() {
                 // Hack to get the parent route to refresh
                 this.send('refreshFoodDayItems');
+                this.send('refreshFoodDay');
                 this.transitionToRoute('foodDayItems');
             }.bind(this));
         },

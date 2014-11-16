@@ -1,6 +1,7 @@
 <header>
+    {{debugger}}
     {{#link-to 'foodDays'}}Days{{/link-to}}
-    {{#link-to 'foodDay'}}{{localDate}}{{/link-to}}
+    {{#link-to 'foodDay'}}{{model.localDate}}{{/link-to}}
     {{#link-to 'foodDayItems.new'}}Add New Item{{/link-to}}
 </header>
 <section id="foodDayItemsSection">
