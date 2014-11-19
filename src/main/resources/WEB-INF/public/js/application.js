@@ -16,5 +16,13 @@ FoodManager.ApplicationAdapter = DS.RESTAdapter.extend({
     }
 });
 
+FoodManager.DatePickerView = Ember.TextField.extend({
+    didInsertElement: function() {
+        this.$().datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    }
+})
+
 // Use JsonSerializer instead of RESTSerializer because it is too opinionated
 FoodManager.ApplicationSerializer = DS.JSONSerializer.extend();
