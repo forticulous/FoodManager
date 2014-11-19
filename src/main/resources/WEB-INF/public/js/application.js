@@ -19,7 +19,8 @@ FoodManager.ApplicationAdapter = DS.RESTAdapter.extend({
 FoodManager.DatePickerView = Ember.TextField.extend({
     didInsertElement: function() {
         this.$().datepicker({
-            dateFormat: 'yy-mm-dd'
+            dateFormat: 'yy-mm-dd',
+            dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         });
     }
 })

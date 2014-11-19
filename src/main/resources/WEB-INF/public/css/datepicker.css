@@ -1,0 +1,32 @@
+.ui-datepicker {
+    font: 14pt Helvetica, sans-serif;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+    background: rgb(200, 200, 200)
+}
+
+.ui-datepicker-prev {
+    float: left;
+    display: inline-block;
+}
+
+.ui-datepicker-next {
+    float: right;
+    display: inline-block;
+}
+
+.ui-datepicker-title {
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f1f1f1 100%);
+    background: -webkit-linear-gradient(top, #f7f7f7 0%, #f1f1f1 100%);
+    text-align: center;
+}
+
+.ui-datepicker thead, .ui-datepicker td {
+    background: -moz-linear-gradient(top, #f7f7f7 0%, #f1f1f1 100%);
+    background: -webkit-linear-gradient(top, #f7f7f7 0%, #f1f1f1 100%);
+}
+
+.ui-datepicker td {
+    text-decoration: none;
+}
