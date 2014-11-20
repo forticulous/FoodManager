@@ -26,7 +26,7 @@ import java.net.URL;
  */
 public class Main {
 
-    private static final int PORT = 8080;
+    private static final int DEFAULT_PORT = 8080;
 
     public static void main(String[] args) throws Exception {
         Main main = new Main();
@@ -38,12 +38,17 @@ public class Main {
 
         Injector injector = Guice.createInjector(new JpaModule(), new SqlModule(), new ResourceModule());
 
-        Server server = new Server(PORT);
+        Server server = new Server(getPort());
         server.setHandler(buildHandlers(injector));
         server.start();
         server.join();
 
         System.exit(0);
+    }
+
+    private int getPort() {
+        boolean local = Boolean.TRUE.toString().equals(System.getProperty("localDev", Boolean.FALSE.toString()));
+        return local ? DEFAULT_PORT : Integer.valueOf(System.getenv("PORT"));
     }
 
     private Handler buildHandlers(Injector injector) {
