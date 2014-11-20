@@ -25,28 +25,41 @@ public class JpaModule extends AbstractModule {
     private EntityManagerFactory provideEntityManagerFactory() {
         String databaseUrl = System.getenv("DATABASE_URL");
         StringTokenizer st = new StringTokenizer(databaseUrl, ":@/");
-        boolean local = "jdbc".equals(st.nextToken());
-        Map<String, String> properties = local ? localProps(databaseUrl) : hostedProps(databaseUrl, st);
+        boolean local = Boolean.TRUE.toString().equals(System.getProperty("localDev", Boolean.FALSE.toString()));
+        Map<String, String> properties = local ? localProps(st) : hostedProps(st);
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT, properties);
         return emf;
     }
 
-    private Map<String, String> hostedProps(String databaseUrl, StringTokenizer st) {
+    private Map<String, String> hostedProps(StringTokenizer st) {
+        st.nextToken(); // provider
         String userName = st.nextToken();
         String password = st.nextToken();
+        String host = st.nextToken();
+        String port = st.nextToken();
+        String databaseName = st.nextToken();
+        String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", host, port, databaseName);
 
         Map<String, String> properties = new HashMap<>();
-        properties.put("javax.persistence.jdbc.url", databaseUrl);
+        properties.put("javax.persistence.jdbc.url", jdbcUrl);
         properties.put("javax.persistence.jdbc.user", userName);
         properties.put("javax.persistence.jdbc.password", password);
         return properties;
     }
 
-    private Map<String, String> localProps(String databaseUrl) {
+    private Map<String, String> localProps(StringTokenizer st) {
+        st.nextToken(); // provider
+        String userName = st.nextToken();
+        String password = st.nextToken();
+        String host = st.nextToken();
+        String databaseName = st.nextToken();
+        String jdbcUrl = String.format("jdbc:postgresql://%s/%s", host, databaseName);
+
         Map<String, String> properties = new HashMap<>();
-        properties.put("javax.persistence.jdbc.url", databaseUrl);
-        properties.put("javax.persistence.jdbc.user", "postgres");
+        properties.put("javax.persistence.jdbc.url", jdbcUrl);
+        properties.put("javax.persistence.jdbc.user", userName);
+        properties.put("javax.persistence.jdbc.password", password);
         return properties;
     }
 
