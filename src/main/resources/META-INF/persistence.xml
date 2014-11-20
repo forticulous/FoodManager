@@ -13,11 +13,7 @@
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/>
-
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost/foodb"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.connection.username" value="fort"/>
-            <property name="hibernate.connection.password" value=""/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
             <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
