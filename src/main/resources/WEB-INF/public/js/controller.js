@@ -43,16 +43,22 @@ FoodManager.FoodDayItemsNewController = Ember.Controller.extend({
                 calories: cals
             });
 
-            foodDayItem.set('localDate', this.model.get('localDate'));
+            var foodDay = this.model.get('foodDay');
+            foodDayItem.set('localDate', foodDay.get('localDate'));
 
             this.set('newDescription', '');
             this.set('newMeal', '');
             this.set('newCalories', '');
 
-            foodDayItem.save().then(function() {
+            foodDayItem.save().then(function(item) {
+                // Also update food day
+                var itemCals = item.get('calories');
+                var foodDayCals = foodDay.get('calories');
+                foodDay.set('calories', foodDayCals + itemCals);
+                this.store.push('foodDay', foodDay.get('data'));
+
                 // Refresh food day items and food day models
                 this.get('foodDayItemsRoute').refresh();
-                this.get('foodDayRoute').refresh();
                 this.transitionToRoute('foodDayItems');
             }.bind(this));
         },
