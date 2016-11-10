@@ -19,7 +19,7 @@ task fatJar(type: Jar) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '3.1'
 }
 
 repositories {
