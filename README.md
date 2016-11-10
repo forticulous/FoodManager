@@ -11,4 +11,4 @@ Technologies:
 * Jetty
 * JAX-RS with Jersey
 * Gson
-* Ember.JS
+* Ember-CLI and EmberJS

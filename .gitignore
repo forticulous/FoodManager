@@ -1,3 +1,6 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# java
 .gradle/
 gradle/
 .idea/
@@ -5,3 +8,20 @@ build/
 *.iml
 gradlew
 gradlew.bat
+
+# compiled output
+dist/
+tmp/
+
+# dependencies
+node_modules/
+bower_components/
+
+# misc
+.sass-cache/
+connect.lock/
+/coverage/*
+/libpeerconnection.log
+npm-debug.log*
+testem.log
+public/
