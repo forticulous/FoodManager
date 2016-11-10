@@ -12,6 +12,7 @@ gradlew.bat
 # compiled output
 dist/
 tmp/
+src/main/resources/WEB-INF/public/
 
 # dependencies
 node_modules/
@@ -25,3 +26,5 @@ connect.lock/
 npm-debug.log*
 testem.log
 public/
+
+ember-app/
