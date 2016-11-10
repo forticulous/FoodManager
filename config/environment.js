@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'foodmanager',
     environment: environment,
-    rootURL: '/',
+    rootURL: '/ui/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
