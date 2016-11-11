@@ -13,7 +13,6 @@ gradlew.bat
 dist/
 tmp/
 src/main/resources/WEB-INF/public/
-/src/main/resources/WEB-INF/public
 
 # dependencies
 node_modules/
