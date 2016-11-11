@@ -1,0 +1,13 @@
+<header>
+    {{#link-to 'foodDays'}}Days{{/link-to}}
+    {{#link-to 'foodDay.foodDayItems'}}Items{{/link-to}}
+</header>
+<section id="foodDaySection">
+    <h2>Details</h2>
+    <dl>
+        <dt>Date</dt>
+        <dd>{{model.localDate}}</dd>
+        <dt>Calories</dt>
+        <dd>{{model.calories}}</dd>
+    </dl>
+</section>

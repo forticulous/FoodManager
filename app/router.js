@@ -7,12 +7,14 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('foodDays', { path: '/days', resetnamespace: true }, function() {
+  this.route('foodDays', { path: '/days' }, function() {
+    this.route('index', { path: '/' });
     this.route('new');
-    this.route('foodDay', { path: '/:localDate', resetnamespace: true }, function() {
-      this.route('foodDayItems', { path: '/items', resetnamespace: true }, function() {
-        this.route('new');
-      });
+  });
+  this.route('foodDay', { path: '/days/:local_date' }, function() {
+    this.route('foodDayItems', { path: '/items' }, function() {
+      this.route('index', { path: '/' });
+      this.route('new');
     });
   });
 });

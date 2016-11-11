@@ -1,13 +1,13 @@
 import DS from 'ember-data';
 
 export default DS.RESTAdapter.extend({
-  buildURL: function(type, id, record) {
+  buildURL: function(type, id, snapshot, requestType, query) {
     switch(type) {
       case 'food-day':
-        return '/api/days/' + record.get('localDate');
+        return '/api/days/' + query.localDate;
       case 'food-day-item':
-        if (record.get('isNew') === true) {
-          return '/api/days/' + record.get('localDate') + '/items/new';
+        if (snapshot.attr('isNew') === true) {
+          return '/api/days/' + snapshot.attr('localDate') + '/items/new';
         }
         return null;
       default:

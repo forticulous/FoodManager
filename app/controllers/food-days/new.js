@@ -19,8 +19,7 @@ export default Ember.Controller.extend({
             this.set('newLocalDate', '');
 
             foodDay.save().then(function() {
-                // Refresh the food days model
-                this.get('foodDaysRoute').refresh();
+                // TODO: Refresh the food days model
                 this.transitionToRoute('foodDays');
             }.bind(this));
         }
