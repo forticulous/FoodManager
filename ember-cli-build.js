@@ -20,5 +20,8 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
+  app.import('bower_components/jquery-ui/ui/jquery.ui.core.js');
+  app.import('bower_components/jquery-ui/ui/jquery.ui.datepicker.js');
+
   return app.toTree();
 };

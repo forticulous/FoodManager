@@ -1,0 +1,21 @@
+<header>
+    {{#link-to 'foodDays.new'}}Add New Day{{/link-to}}
+</header>
+<section id="foodDaysSection">
+    <ul id="foodday-list">
+        {{#each model as |foodDay|}}
+        <hr/>
+        <li>
+            <dl>
+                <dt>Date</dt>
+                <dd>{{#link-to 'foodDay' localDate}}{{foodDay.localDate}}{{/link-to}}</dd>
+                <dt>Calories</dt>
+                <dd>{{foodDay.calories}}</dd>
+            </dl>
+        </li>
+        {{else}}
+            <span>No data to show</span>
+        {{/each}}
+        <hr/>
+    </ul>
+</section>
