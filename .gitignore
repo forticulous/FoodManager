@@ -25,6 +25,3 @@ connect.lock/
 /libpeerconnection.log
 npm-debug.log*
 testem.log
-
-# todo: remove this
-ember-app/

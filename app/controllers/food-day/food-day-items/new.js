@@ -32,8 +32,8 @@ export default Ember.Controller.extend({
                 foodDay.set('calories', foodDayCals + itemCals);
                 this.store.push('foodDay', foodDay.get('data'));
 
-                // Refresh food day items and food day models
-                this.get('foodDayItemsRoute').refresh();
+                // TODO: Refresh food day items and food day models
+                //this.get('foodDayItemsRoute').refresh();
                 this.transitionToRoute('foodDayItems');
             }.bind(this));
         },
