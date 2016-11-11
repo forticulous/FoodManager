@@ -25,7 +25,6 @@ connect.lock/
 /libpeerconnection.log
 npm-debug.log*
 testem.log
-public/
 
 # todo: remove this
 ember-app/
