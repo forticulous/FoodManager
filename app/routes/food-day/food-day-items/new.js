@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   },
   setupController: function(controller, model) {
     var foodDay = this.modelFor('foodDay');
-    model.set('localDate', foodDay.get('localDate'));
+    controller.set('foodDay', foodDay);
     this._super(controller, model);
   }
 });

@@ -18,23 +18,23 @@ export default Ember.Controller.extend({
                 calories: cals
             });
 
-            let foodDay = this.model.get('foodDay');
-            foodDayItem.set('localDate', foodDay.get('localDate'));
+            let foodDay = this.get('foodDay');
 
             this.set('newDescription', '');
             this.set('newMeal', '');
             this.set('newCalories', '');
 
-            foodDayItem.save().then(function(item) {
-                // Also update food day
-                let itemCals = item.get('calories');
-                let foodDayCals = foodDay.get('calories');
-                foodDay.set('calories', foodDayCals + itemCals);
-                this.store.push('foodDay', foodDay.get('data'));
+            foodDayItem.save({ adapterOptions: { localDate: foodDay.get('localDate') }}).then(function(item) {
+              // Also update food day
+              let itemCals = item.get('calories');
+              let foodDayCals = foodDay.get('calories');
+              foodDay.set('calories', foodDayCals + itemCals);
 
-                // TODO: Refresh food day items and food day models
-                //this.get('foodDayItemsRoute').refresh();
-                this.transitionToRoute('foodDayItems');
+              this.store.push(this.store.normalize('food-day', foodDay));
+
+              // TODO: Refresh food day items and food day models
+              //this.get('foodDayItemsRoute').refresh();
+              this.transitionToRoute('foodDay.foodDayItems');
             }.bind(this));
         },
         calsHelper: function() {

@@ -6,8 +6,8 @@ export default DS.RESTAdapter.extend({
       case 'food-day':
         return '/api/days/' + query.localDate;
       case 'food-day-item':
-        if (snapshot.attr('isNew') === true) {
-          return '/api/days/' + snapshot.attr('localDate') + '/items/new';
+        if (requestType === 'createRecord') {
+          return '/api/days/' + snapshot.adapterOptions.localDate + '/items/new';
         }
         return null;
       default:
