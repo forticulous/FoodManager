@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
               let foodDayCals = foodDay.get('calories');
               foodDay.set('calories', foodDayCals + itemCals);
 
-              this.store.push(this.store.normalize('food-day', foodDay));
+              this.store.push(this.store.normalize('food-day', foodDay.toJSON({ includeId: true })));
 
               // TODO: Refresh food day items and food day models
               //this.get('foodDayItemsRoute').refresh();
