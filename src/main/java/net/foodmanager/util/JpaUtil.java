@@ -1,11 +1,11 @@
 package net.foodmanager.util;
 
 import com.google.inject.Inject;
-import net.foodmanager.util.callback.DoInTransactionCallback;
-import net.foodmanager.util.callback.ReturnFromTransactionCallback;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * @author fort
@@ -17,17 +17,17 @@ public final class JpaUtil {
 
     private JpaUtil() {}
 
-    public static void doInTransaction(DoInTransactionCallback callback) {
+    public static void doInTransaction(Consumer<EntityManager> callback) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        callback.doInTransaction(em);
+        callback.accept(em);
         em.getTransaction().commit();
     }
 
-    public static <T> T returnFromTransaction(ReturnFromTransactionCallback<T> callback) {
+    public static <T> T returnFromTransaction(Function<EntityManager, T> callback) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        T returned = callback.returnFromTransaction(em);
+        T returned = callback.apply(em);
         em.getTransaction().commit();
         return returned;
     }
